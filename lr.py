@@ -11,6 +11,14 @@ def sigmoid(score):
     return 1/(1 + np.exp(-score))
 
 
+def calculate_error(line_parameters, points, labels):
+    m = points.shape[0]
+    p = sigmoid(np.dot(points, line_parameters))
+    cross_entropy = (-1/m)*(np.dot(np.log(p).T, labels) + np.dot(np.log(1-p).T, (1-labels)))
+    return cross_entropy
+
+
+
 np.random.seed(0)
 
 n_pts = 100
@@ -38,6 +46,9 @@ linear_combination = np.dot(all_points, line_parameters)
 
 probabilities = sigmoid(linear_combination)
 #print(probabilities)
+
+labels = np.array([np.zeros(n_pts), np.ones(n_pts)]).reshape(n_pts*2)
+print(calculate_error(line_parameters, all_points, labels))
 
 
 
